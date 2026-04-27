@@ -1,0 +1,194 @@
+CLASS lhc_dept144 DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PUBLIC SECTION.
+    CLASS-DATA:
+      lt_create TYPE STANDARD TABLE OF zdb_dept144 WITH NON-UNIQUE DEFAULT KEY,
+      lt_update TYPE STANDARD TABLE OF zdb_dept144 WITH NON-UNIQUE DEFAULT KEY,
+      lt_delete TYPE STANDARD TABLE OF zdb_dept144 WITH NON-UNIQUE DEFAULT KEY.
+  PRIVATE SECTION.
+
+    METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
+      IMPORTING keys REQUEST requested_authorizations FOR dept144 RESULT result.
+
+    METHODS create FOR MODIFY
+      IMPORTING entities FOR CREATE dept144.
+
+    METHODS update FOR MODIFY
+      IMPORTING entities FOR UPDATE dept144.
+
+    METHODS delete FOR MODIFY
+      IMPORTING keys FOR DELETE dept144.
+
+    METHODS read FOR READ
+      IMPORTING keys FOR READ dept144 RESULT result.
+
+    METHODS lock FOR LOCK
+      IMPORTING keys FOR LOCK dept144.
+
+ENDCLASS.
+
+CLASS lhc_dept144 IMPLEMENTATION.
+
+  METHOD get_instance_authorizations.
+  ENDMETHOD.
+
+  METHOD create.
+    DATA ls_dept TYPE zdb_dept144.
+
+    IF entities IS NOT INITIAL.
+      LOOP AT entities ASSIGNING FIELD-SYMBOL(<lf_entities>).
+        ls_dept-department_id   = <lf_entities>-departmentid.
+        ls_dept-department_name = <lf_entities>-departmentname.
+
+        APPEND ls_dept TO lt_create.
+        CLEAR ls_dept.
+      ENDLOOP.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD update.
+    DATA ls_dept TYPE zdb_dept144.
+
+    IF entities IS NOT INITIAL.
+      LOOP AT entities ASSIGNING FIELD-SYMBOL(<lf_entities>).
+        ls_dept-department_id   = <lf_entities>-departmentid.
+        ls_dept-department_name = <lf_entities>-departmentname.
+
+        APPEND ls_dept TO lt_update.
+        CLEAR ls_dept.
+      ENDLOOP.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD delete.
+    IF keys IS NOT INITIAL.
+      SELECT * FROM zdb_dept144
+      FOR ALL ENTRIES IN @keys
+      WHERE department_id = @keys-departmentid
+      INTO TABLE @lt_delete.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD read.
+  ENDMETHOD.
+
+  METHOD lock.
+  ENDMETHOD.
+
+ENDCLASS.
+
+CLASS lsc_zi_dept144 DEFINITION INHERITING FROM cl_abap_behavior_saver.
+  PROTECTED SECTION.
+
+    METHODS finalize REDEFINITION.
+
+    METHODS check_before_save REDEFINITION.
+
+    METHODS adjust_numbers REDEFINITION.
+
+    METHODS save REDEFINITION.
+
+    METHODS cleanup REDEFINITION.
+
+    METHODS cleanup_finalize REDEFINITION.
+
+ENDCLASS.
+
+CLASS lsc_zi_dept144 IMPLEMENTATION.
+
+  METHOD finalize.
+  ENDMETHOD.
+
+  METHOD check_before_save.
+    DATA lt_dept TYPE STANDARD TABLE OF zdb_dept144.
+    IF lhc_dept144=>lt_create IS NOT INITIAL.
+      lt_dept[] = lhc_dept144=>lt_create[].
+      SELECT * FROM zdb_dept144
+      FOR ALL ENTRIES IN @lt_dept
+      WHERE department_name = @lt_dept-department_name
+      INTO TABLE @DATA(lt_deptname).
+    ENDIF.
+    IF lt_deptname IS NOT INITIAL.
+      IF lt_deptname IS NOT INITIAL.
+        SORT lt_deptname BY department_name ASCENDING.
+        LOOP AT lt_dept ASSIGNING FIELD-SYMBOL(<fs_dept>).
+          READ TABLE lt_deptname
+          WITH KEY department_name = <fs_dept>-department_name
+          ASSIGNING FIELD-SYMBOL(<fs_deptname>) BINARY SEARCH.
+          IF sy-subrc = 0.
+            APPEND VALUE #(
+             %key = <fs_dept>-department_id
+             %msg = new_message_with_text(
+                      text     = |Department { <fs_dept>-department_name } already exists|
+                      severity = if_abap_behv_message=>severity-error )
+           ) TO reported-dept144.
+            APPEND VALUE #(
+              %key = <fs_dept>-department_id
+            ) TO failed-dept144.
+          ENDIF.
+        ENDLOOP.
+      ENDIF.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD adjust_numbers.
+    DATA: lv_number TYPE cl_numberrange_runtime=>nr_number.
+    CHECK lhc_dept144=>lt_create IS NOT INITIAL.
+
+    TRY.
+        cl_numberrange_intervals=>create(
+         EXPORTING
+           interval  = VALUE #( (
+               nrrangenr = '01'
+               fromnumber = '0000000001'
+               tonumber = '9999999999'
+               procind = 'I'
+           ) )
+                   object    = 'ZEMP144'
+         IMPORTING error     = DATA(ld_error)
+                   error_inf = DATA(ls_error)
+                   error_iv  = DATA(lt_error_iv)
+                   warning   = DATA(ld_warning) ).
+        ##NO_HANDLER
+      CATCH cx_number_ranges INTO DATA(lx_ni).
+    ENDTRY.
+
+    LOOP AT lhc_dept144=>lt_create ASSIGNING FIELD-SYMBOL(<lf_create>).
+      TRY.
+          cl_numberrange_runtime=>number_get(
+               EXPORTING
+                 object      = 'ZEMP144'   " SNRO object
+                 nr_range_nr = '01'        " interval
+               IMPORTING
+                 number      = lv_number
+                 returncode  = DATA(lv_rc)
+             ).
+        CATCH cx_number_ranges INTO DATA(lx_nr).
+          APPEND VALUE #(
+              %key = <lf_create>-department_id
+              %msg = lx_nr
+            ) TO reported-dept144.
+          EXIT.
+      ENDTRY.
+      <lf_create>-created_id = lv_number.
+    ENDLOOP.
+  ENDMETHOD.
+
+  METHOD save.
+    IF lhc_dept144=>lt_create IS NOT INITIAL.
+      INSERT zdb_dept144 FROM TABLE lhc_dept144=>lt_create.
+    ENDIF.
+    IF lhc_dept144=>lt_update IS NOT INITIAL.
+      UPDATE zdb_dept144 FROM TABLE lhc_dept144=>lt_update.
+    ENDIF.
+    IF lhc_dept144=>lt_delete IS NOT INITIAL.
+      DELETE zdb_dept144 FROM TABLE lhc_dept144=>lt_delete.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD cleanup.
+  ENDMETHOD.
+
+  METHOD cleanup_finalize.
+  ENDMETHOD.
+
+ENDCLASS.

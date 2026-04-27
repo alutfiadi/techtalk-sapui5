@@ -1,0 +1,37 @@
+{
+  "sap.app": {
+    "id": "com.accenture.training200",
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZSB_EMPTRAINING/",
+        "type": "OData",
+        "settings": { "odataVersion": "2.0" }
+      }
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "libs": {
+        "sap.m": {},
+        "sap.f": {},
+        "sap.ui.layout": {},
+        "sap.ui.comp": {},
+        "sap.uxap": {}
+      }
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": { "bundleName": "com.accenture.training200.i18n.i18n" }
+      },
+      "": { "dataSource": "mainService", "preload": true }
+    },
+    "routing": {
+      "config": { "routerClass": "sap.m.routing.Router" },
+      "routes": [
+        { "name": "RouteHome",   "pattern": ":?query:", "target": ["TargetHome"] },
+        { "name": "RouteDetail", "pattern": "detail/{employeeId}", "target": ["TargetDetail"] }
+      ]
+    }
+  }
+}

@@ -1,0 +1,249 @@
+CLASS lhc_employee144 DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PRIVATE SECTION.
+
+    METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
+      IMPORTING keys REQUEST requested_authorizations FOR employee144 RESULT result.
+
+    METHODS earlynumbering_create FOR NUMBERING
+      IMPORTING entities FOR CREATE employee144.
+
+    METHODS calculatetotalsalary FOR MODIFY
+      IMPORTING keys FOR ACTION employee144~calculatetotalsalary RESULT result.
+
+    METHODS setdefaultstatus FOR DETERMINE ON SAVE
+      IMPORTING keys FOR employee144~setdefaultstatus.
+
+    METHODS onemployeecheck FOR VALIDATE ON SAVE
+      IMPORTING keys FOR employee144~onemployeecheck.
+    METHODS oncurrencycheck FOR VALIDATE ON SAVE
+      IMPORTING keys FOR employee144~oncurrencycheck.
+
+    TYPES : BEGIN OF ty_empcheck,
+              employee_name TYPE zdb_employee144-employee_name,
+              email         TYPE zdb_employee144-email,
+            END OF ty_empcheck.
+    TYPES : tt_empcheck TYPE STANDARD TABLE OF ty_empcheck.
+
+    CONSTANTS c_default_curr TYPE zdb_employee144-salary VALUE '3454827.00'.
+ENDCLASS.
+
+CLASS lhc_employee144 IMPLEMENTATION.
+
+  METHOD get_instance_authorizations.
+  ENDMETHOD.
+
+  METHOD earlynumbering_create.
+    DATA: lv_number TYPE cl_numberrange_runtime=>nr_number.
+    CHECK entities IS NOT INITIAL.
+    TRY.
+        cl_numberrange_intervals=>create(
+         EXPORTING
+           interval  = VALUE #( (
+               nrrangenr = '01'
+               fromnumber = '0000000001'
+               tonumber = '9999999999'
+               procind = 'I'
+           ) )
+                   object    = 'ZEMP144'
+         IMPORTING error     = DATA(ld_error)
+                   error_inf = DATA(ls_error)
+                   error_iv  = DATA(lt_error_iv)
+                   warning   = DATA(ld_warning) ).
+        ##NO_HANDLER
+      CATCH cx_number_ranges INTO DATA(lx_ni).
+    ENDTRY.
+    LOOP AT entities ASSIGNING FIELD-SYMBOL(<lf_entities>).
+      TRY.
+          cl_numberrange_runtime=>number_get(
+               EXPORTING
+                 object      = 'ZEMP144'   " SNRO object
+                 nr_range_nr = '01'        " interval
+               IMPORTING
+                 number      = lv_number
+                 returncode  = DATA(lv_rc)
+             ).
+        CATCH cx_number_ranges INTO DATA(lx_nr).
+          APPEND VALUE #(
+              %cid = <lf_entities>-%cid
+              %key = <lf_entities>-%key
+              %msg = lx_nr
+            ) TO reported-employee144.
+          APPEND VALUE #(
+            %cid = <lf_entities>-%cid
+            %key = <lf_entities>-%key
+          ) TO failed-employee144.
+          EXIT.
+      ENDTRY.
+      APPEND VALUE #(
+      %cid       = <lf_entities>-%cid
+      %key       = <lf_entities>-%key
+      employeeid = lv_number
+      ) TO mapped-employee144.
+
+    ENDLOOP.
+  ENDMETHOD.
+
+  METHOD calculatetotalsalary.
+    DATA lt_update TYPE TABLE FOR UPDATE zi_employee144.
+    DATA lt_dept   TYPE STANDARD TABLE OF zdb_dept144.
+    DATA lv_base   TYPE decfloat16.
+    DATA lv_result TYPE decfloat16.
+
+    READ ENTITIES OF zi_employee144 IN LOCAL MODE
+    ENTITY employee144
+    FIELDS ( employeeid departmentid Salary SalaryTotal )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_salary).
+
+    IF lt_salary IS NOT INITIAL.
+      SELECT * FROM zdb_dept144
+      FOR ALL ENTRIES IN @lt_salary
+      WHERE department_id = @lt_salary-departmentid
+      INTO TABLE @lt_dept.
+
+      IF lt_dept IS NOT INITIAL.
+        SORT lt_dept BY department_id ASCENDING.
+
+        LOOP AT lt_salary ASSIGNING FIELD-SYMBOL(<lf_salary>).
+          IF <lf_salary>-salary IS INITIAL.
+            <lf_salary>-salary = c_default_curr.
+          ENDIF.
+          READ TABLE lt_dept
+           WITH KEY department_id = <lf_salary>-departmentid
+           BINARY SEARCH ASSIGNING FIELD-SYMBOL(<lf_dept>).
+          IF sy-subrc = 0.
+            CASE <lf_dept>-department_id.
+              WHEN '1'.
+                lv_base   = <lf_salary>-salary.
+                lv_result = 7 * lv_base.
+                <lf_salary>-salarytotal = lv_result.
+              WHEN '2'.
+                lv_base   = <lf_salary>-salary.
+                lv_result = 5 * lv_base.
+                <lf_salary>-salarytotal = lv_result.
+              WHEN '3'.
+                lv_base   = <lf_salary>-salary.
+                lv_result = 4 * lv_base.
+                <lf_salary>-salarytotal = lv_result.
+              WHEN '4'.
+                lv_base   = <lf_salary>-salary.
+                lv_result = 3 * lv_base.
+                <lf_salary>-salarytotal = lv_result.
+              WHEN OTHERS.
+                lv_base   = <lf_salary>-salary.
+                lv_result = 2 * lv_base.
+                <lf_salary>-salarytotal = lv_result.
+            ENDCASE.
+          ENDIF.
+
+          APPEND VALUE #(
+              %key        = <lf_salary>-%key
+              %tky        = <lf_salary>-%tky
+              salary      = <lf_salary>-salary
+              salarytotal = <lf_salary>-salarytotal
+            ) TO lt_update.
+        ENDLOOP.
+
+        MODIFY ENTITIES OF zi_employee144 IN LOCAL MODE
+        ENTITY employee144
+        UPDATE FIELDS ( Salary SalaryTotal )
+        WITH CORRESPONDING #( lt_update )
+        REPORTED DATA(ls_reported)
+        FAILED   DATA(ls_failed).
+      ENDIF.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD setdefaultstatus.
+    READ ENTITIES OF zi_employee144 IN LOCAL MODE
+    ENTITY employee144
+    FIELDS ( status )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_status).
+
+    IF lt_status IS NOT INITIAL.
+      LOOP AT lt_status ASSIGNING FIELD-SYMBOL(<lf_status>).
+        IF <lf_status>-status IS INITIAL.
+          <lf_status>-status = abap_true.
+        ENDIF.
+      ENDLOOP.
+      MODIFY ENTITIES OF zi_employee144 IN LOCAL MODE
+      ENTITY employee144
+      UPDATE FIELDS ( status )
+      WITH CORRESPONDING #( lt_status )
+      FAILED DATA(failed_read)
+      REPORTED DATA(reported_read).
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD onemployeecheck.
+    DATA: lt_oldemp TYPE tt_empcheck.
+    READ ENTITIES OF zi_employee144 IN LOCAL MODE
+     ENTITY employee144
+     FIELDS ( employeename email )
+     WITH CORRESPONDING #( keys )
+     RESULT DATA(lt_emp).
+
+    IF lt_emp IS NOT INITIAL.
+      SORT lt_emp BY employeename ASCENDING.
+
+      SELECT employee_name, email
+      FROM zdb_employee144
+      FOR ALL ENTRIES IN @lt_emp
+      WHERE employee_name = @lt_emp-employeename
+      AND email =  @lt_emp-email
+      INTO TABLE @lt_oldemp.
+
+      IF lt_oldemp IS NOT INITIAL.
+        SORT lt_oldemp BY employee_name ASCENDING.
+
+        LOOP AT lt_emp ASSIGNING FIELD-SYMBOL(<lf_emp>).
+          READ TABLE lt_oldemp
+          WITH KEY employee_name = <lf_emp>-employeename
+                   email = <lf_emp>-email
+          ASSIGNING FIELD-SYMBOL(<lf_oldemp>)
+          BINARY SEARCH.
+          IF sy-subrc = 0.
+            APPEND VALUE #(
+             %key = <lf_emp>-%key
+             %msg = new_message_with_text(
+                   text     = |Employee { <lf_emp>-employeename } & Email { <lf_emp>-email } already exists|
+                   severity = if_abap_behv_message=>severity-error )
+            ) TO reported-employee144.
+
+            APPEND VALUE #(
+             %key = <lf_emp>-%key
+            ) TO failed-employee144.
+          ENDIF.
+        ENDLOOP.
+      ENDIF.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD oncurrencycheck.
+    READ ENTITIES OF zi_employee144 IN LOCAL MODE
+      ENTITY employee144
+      FIELDS ( employeename currencycode )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_curr).
+
+    IF lt_curr IS NOT INITIAL.
+      SORT lt_curr BY employeename ASCENDING.
+      LOOP AT lt_curr ASSIGNING FIELD-SYMBOL(<lf_curr>).
+        IF <lf_curr>-currencycode IS INITIAL.
+          APPEND VALUE #(
+               %key = <lf_curr>-%key
+               %msg = new_message_with_text(
+                     text     = |Currency is mandatory |
+                     severity = if_abap_behv_message=>severity-error )
+              ) TO reported-employee144.
+
+          APPEND VALUE #(
+           %key = <lf_curr>-%key
+          ) TO failed-employee144.
+        ENDIF.
+      ENDLOOP.
+    ENDIF.
+  ENDMETHOD.
+
+ENDCLASS.

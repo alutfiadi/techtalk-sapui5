@@ -1,0 +1,15 @@
+unmanaged implementation in class zcl_i_dept144 unique;
+strict;
+
+define behavior for ZI_DEPT144 alias Dept144
+late numbering
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field( readonly ) CreatedId;
+}

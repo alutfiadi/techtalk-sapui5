@@ -1,0 +1,11 @@
+projection;
+strict;
+
+define behavior for ZC_EMPLOYEE144 alias EMPLOYEE144
+{
+  use create;
+  use update;
+  use delete;
+
+  use action CalculateTotalSalary;
+}

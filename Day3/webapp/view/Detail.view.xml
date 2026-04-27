@@ -1,0 +1,86 @@
+<mvc:View
+    controllerName="com.acn.training201.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        id="pageDetail"
+        title="{view>/pageTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+    >
+        <headerContent>
+            <!-- Edit button: hidden when already in edit or create mode -->
+            <Button
+                id="editBtn"
+                text="{i18n>edit}"
+                type="Emphasized"
+                icon="sap-icon://edit"
+                press=".onEdit"
+                visible="{= !${view>/editMode} &amp;&amp; !${view>/createMode} }"
+            />
+            <!-- Save/Cancel: shown in edit or create mode -->
+            <Button
+                id="saveBtn"
+                text="{i18n>save}"
+                type="Emphasized"
+                icon="sap-icon://save"
+                press=".onSave"
+                visible="{= ${view>/editMode} || ${view>/createMode} }"
+            />
+            <Button
+                id="cancelBtn"
+                text="{i18n>cancel}"
+                press=".onCancel"
+                visible="{= ${view>/editMode} || ${view>/createMode} }"
+            />
+        </headerContent>
+
+        <content>
+            <!-- Display Fragment: shown in view mode only -->
+            <VBox
+                visible="{= !${view>/editMode} &amp;&amp; !${view>/createMode} }"
+            >
+                <core:Fragment
+                    fragmentName="com.acn.training201.fragment.DetailDisplay"
+                    type="XML"
+                />
+            </VBox>
+
+            <!-- Edit/Create Fragment: shown when editing or creating -->
+            <VBox visible="{= ${view>/editMode} || ${view>/createMode} }">
+                <core:Fragment
+                    fragmentName="com.acn.training201.fragment.DetailEdit"
+                    type="XML"
+                />
+            </VBox>
+
+            <!-- Audit Log: always display-only, hidden in create mode -->
+            <f:Form
+                id="formAudit"
+                editable="false"
+                visible="{= !${view>/createMode} }"
+                class="sapUiMediumMarginBeginEnd"
+            >
+                <!-- CreatedBy, CreatedDate, ModifiedBy, ModifiedDate -->
+            </f:Form>
+        </content>
+
+        <!-- Message popover button (bottom-left, visible when errors exist) -->
+        <footer>
+            <OverflowToolbar>
+                <Button
+                    id="msgPopoverBtn"
+                    type="Reject"
+                    icon="sap-icon://message-popup"
+                    text="{view>/messageCount} Error(s)"
+                    press=".onMessagePopoverPress"
+                    visible="{= ${view>/messageCount} > 0}"
+                />
+                <ToolbarSpacer />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

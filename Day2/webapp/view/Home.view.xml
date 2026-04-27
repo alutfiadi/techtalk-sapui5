@@ -1,0 +1,227 @@
+<mvc:View
+    controllerName="com.acn.training201.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+>
+    <f:DynamicPage
+        id="listReportPage"
+        toggleHeaderOnTitleClick="true"
+    >
+        <!-- title, header, content go here -->
+        <f:title>
+            <f:DynamicPageTitle id="dynamicPageTitle">
+                <f:heading>
+                    <Title
+                        id="pageTitle"
+                        text="{i18n>homeTitle}"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader
+                id="filterHeader"
+                pinnable="true"
+            >
+                <f:content>
+                    <fb:FilterBar
+                        id="filterBar"
+                        useToolbar="false"
+                        showGoOnFB="true"
+                        search=".onSearch"
+                        clear=".onClear"
+                        showClearOnFB="true"
+                        showFilterConfiguration="false"
+                    >
+                        <fb:filterItems>
+                            <fb:FilterItem
+                                name="search"
+                                label="{i18n>labelSearch}"
+                            >
+                                <fb:control>
+                                    <SearchField
+                                        id="searchField"
+                                        placeholder="{i18n>searchPlaceholder}"
+                                        width="220px"
+                                        search=".onSearch"
+                                    />
+                                </fb:control>
+                            </fb:FilterItem>
+
+                            <!-- Department dropdown (OData-bound) -->
+                            <fb:FilterItem
+                                name="department"
+                                label="{i18n>department}"
+                            >
+                                <fb:control>
+                                    <Select
+                                        id="departmentSelect"
+                                        forceSelection="false"
+                                        width="200px"
+                                        items="{/Department}"
+                                    >
+                                        <core:Item
+                                            key="{DepartmentId}"
+                                            text="{DepartmentName}"
+                                        />
+                                    </Select>
+                                </fb:control>
+                            </fb:FilterItem>
+
+                            <!-- Status dropdown (static items) -->
+                            <fb:FilterItem
+                                name="status"
+                                label="{i18n>status}"
+                            >
+                                <fb:control>
+                                    <Select
+                                        id="statusSelect"
+                                        forceSelection="false"
+                                        width="150px"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="{i18n>all}"
+                                        />
+                                        <core:Item
+                                            key="X"
+                                            text="{i18n>statusActive}"
+                                        />
+                                    </Select>
+                                </fb:control>
+                            </fb:FilterItem>
+                        </fb:filterItems>
+                    </fb:FilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <Table
+                id="employeeTable"
+                items="{/Employee}"
+                mode="None"
+                growing="true"
+                growingThreshold="20"
+                growingScrollToLoad="true"
+                itemPress=".onRowPress"
+            >
+                <headerToolbar>
+                    <OverflowToolbar id="tableToolbar">
+                        <Title
+                            id="tableTitle"
+                            text="{i18n>employeeTableTitle}"
+                        />
+                        <ToolbarSpacer />
+                        <Button
+                            id="createBtn"
+                            text="{i18n>create}"
+                            type="Emphasized"
+                            icon="sap-icon://add"
+                            press=".onCreate"
+                        />
+                        <Button
+                            id="exportBtn"
+                            text="{i18n>export}"
+                            icon="sap-icon://excel-attachment"
+                            press=".onExport"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column id="colEmployeeId">
+                        <Text text="{i18n>employeeId}" />
+                    </Column>
+                    <Column id="colEmployeeName">
+                        <Text text="{i18n>employeeName}" />
+                    </Column>
+                    <Column id="colBirthDate">
+                        <Text text="{i18n>birthDate}" />
+                    </Column>
+                    <Column id="colEmail">
+                        <Text text="{i18n>email}" />
+                    </Column>
+                    <Column id="colPhoneNo">
+                        <Text text="{i18n>phoneNo}" />
+                    </Column>
+                    <Column id="colHireDate">
+                        <Text text="{i18n>hireDate}" />
+                    </Column>
+                    <Column
+                        id="colDepartmentName"
+                        demandPopin="true"
+                        minScreenWidth="Tablet"
+                        popinDisplay="Inline"
+                    >
+                        <Text text="{i18n>departmentName}" />
+                    </Column>
+                    <Column
+                        id="colSalary"
+                        demandPopin="true"
+                        minScreenWidth="Tablet"
+                        popinDisplay="Inline"
+                    >
+                        <Text text="{i18n>salary}" />
+                    </Column>
+                    <Column
+                        id="colStatus"
+                        demandPopin="true"
+                        minScreenWidth="Tablet"
+                        popinDisplay="Inline"
+                    >
+                        <Text text="{i18n>status}" />
+                    </Column>
+                    <Column
+                        id="colDelete"
+                        width="4rem"
+                        hAlign="Center"
+                    >
+                        <Text text="" />
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem
+                        id="employeeListItem"
+                        type="Navigation"
+                        press=".onRowPress"
+                    >
+                        <cells>
+                            <Text text="{EmployeeId}" />
+                            <Text text="{EmployeeName}" />
+                            <Text
+                                text="{
+                    path: 'BirthDate',
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: { pattern: 'dd MMM yyyy', UTC: true }
+                }"
+                            />
+                            <Text text="{Email}" />
+                            <Text text="{PhoneNo}" />
+                            <Text
+                                text="{
+                    path: 'HireDate',
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: { pattern: 'dd-MM-yyyy', UTC: true }
+                }"
+                            />
+                            <Text text="{DepartmentName}" />
+                            <Text text="{Salary} {CurrencyCode}" />
+                            <ObjectStatus text="{Status}" />
+                            <Button
+                                id="deleteRowBtn"
+                                icon="sap-icon://delete"
+                                type="Reject"
+                                press=".onDelete"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

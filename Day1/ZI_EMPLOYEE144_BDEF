@@ -1,0 +1,39 @@
+managed implementation in class zbp_i_employee144 unique;
+strict;
+
+define behavior for ZI_EMPLOYEE144 alias EMPLOYEE144
+persistent table zdb_employee144
+lock master
+authorization master ( instance )
+early numbering
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field ( readonly ) EmployeeId, CreatedBy, CreatedDate, ModifiedBy, ModifiedDate;
+  field ( mandatory ) EmployeeName;
+  validation onEmployeeCheck on save { create;  }
+  validation onCurrencyCheck on save { create;update; field CurrencyCode; }
+  determination SetDefaultStatus on save { create; }
+  action CalculateTotalSalary result [1] $self;
+  mapping for ZDB_EMPLOYEE144
+  {
+    EmployeeId = employee_id;
+    EmployeeName = employee_name;
+    BirthDate = birth_date;
+    Email = email;
+    PhoneNo = phone_no;
+    DepartmentId = department_id;
+    HireDate = hire_date;
+    Salary = salary;
+    SalaryTotal = salary_total;
+    CurrencyCode = currency_code;
+    Status = status;
+    CreatedBy = created_by;
+    CreatedDate = created_date;
+    ModifiedBy = modified_by;
+    ModifiedDate = modified_date;
+  }
+}

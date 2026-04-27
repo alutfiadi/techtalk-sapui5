@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service Definition for RAP Employee Training'
+define service ZSD_EMPTRAINING {
+  expose ZC_EMPLOYEE144 as Employee;
+  expose ZC_DEPT144 as Department;
+}

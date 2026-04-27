@@ -1,0 +1,32 @@
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Interface View Employee 144'
+@Metadata.ignorePropagatedAnnotations: true
+define root view entity ZI_EMPLOYEE144
+  as select from zdb_employee144
+  association [0..1] to ZI_DEPT144 as _Department on $projection.DepartmentId = _Department.DepartmentId
+{
+  key employee_id                as EmployeeId,
+      employee_name              as EmployeeName,
+      birth_date                 as BirthDate,
+      email                      as Email,
+      phone_no                   as PhoneNo,
+      department_id              as DepartmentId,
+      hire_date                  as HireDate,
+      @Semantics.amount.currencyCode: 'CurrencyCode'
+      salary                     as Salary,
+      @Semantics.amount.currencyCode: 'CurrencyCode'
+      salary_total               as SalaryTotal,
+      @Search.defaultSearchElement: true
+      currency_code              as CurrencyCode,
+      status                     as Status,
+      @Semantics.user.createdBy: true
+      created_by                 as CreatedBy,
+      @Semantics.systemDateTime.createdAt: true
+      created_date               as CreatedDate,
+      @Semantics.user.lastChangedBy: true
+      modified_by                as ModifiedBy,
+      @Semantics.systemDateTime.lastChangedAt: true
+      modified_date              as ModifiedDate,
+      _Department.DepartmentName as DepartmentName,
+      _Department
+}

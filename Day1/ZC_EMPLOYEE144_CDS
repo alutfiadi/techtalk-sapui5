@@ -1,0 +1,37 @@
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Projection View ZI_EMPLOYEE144'
+@Metadata.ignorePropagatedAnnotations: true
+@Metadata.allowExtensions: true
+
+define root view entity ZC_EMPLOYEE144
+  provider contract transactional_query
+  as projection on ZI_EMPLOYEE144
+{
+  key EmployeeId,
+      EmployeeName,
+      BirthDate,
+      Email,
+      PhoneNo,
+      DepartmentId,
+      HireDate,
+      @Semantics.amount.currencyCode: 'CurrencyCode'
+      Salary,
+      @Semantics.amount.currencyCode: 'CurrencyCode'
+      SalaryTotal,
+      @Consumption.valueHelpDefinition: [
+      { entity: { name: 'ZVH_CURRENCY', element: 'currency' } }
+      ]
+      CurrencyCode,
+      Status,
+      @Semantics.systemDateTime.createdAt: true
+      CreatedDate,
+      @Semantics.user.createdBy: true
+      CreatedBy,
+      @Semantics.systemDateTime.lastChangedAt: true
+      ModifiedDate,
+      @Semantics.user.lastChangedBy: true
+      ModifiedBy,
+      DepartmentName,
+
+      _Department
+}

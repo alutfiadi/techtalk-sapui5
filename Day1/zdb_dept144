@@ -1,0 +1,12 @@
+@EndUserText.label : 'Table for employeedepatment144 training'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table zdb_dept144 {
+  key client        : abap.clnt not null;
+  key department_id : abap.char(10) not null;
+  department_name   : abap.char(50);
+  created_id        : abap.numc(20);
+
+}

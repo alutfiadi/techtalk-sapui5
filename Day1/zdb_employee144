@@ -1,0 +1,26 @@
+@EndUserText.label : 'Table for employee144 training'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table zdb_employee144 {
+  key client      : abap.clnt not null;
+  key employee_id : abap.numc(20) not null;
+  employee_name   : abap.char(500);
+  birth_date      : abap.dats;
+  email           : abap.char(250);
+  phone_no        : abap.char(50);
+  department_id   : abap.char(10);
+  hire_date       : abap.dats;
+  currency_code   : abap.cuky;
+  @Semantics.amount.currencyCode : 'zdb_employee144.currency_code'
+  salary          : abap.curr(15,2);
+  @Semantics.amount.currencyCode : 'zdb_employee144.currency_code'
+  salary_total    : abap.curr(15,2);
+  status          : abap.char(1);
+  created_by      : abp_creation_user;
+  created_date    : abp_creation_tstmpl;
+  modified_by     : abp_lastchange_user;
+  modified_date   : abp_lastchange_tstmpl;
+
+}

@@ -1,0 +1,41 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: {
+  typeName: 'Department Info',
+  typeNamePlural: 'Departments',
+  title: { type: #STANDARD, label: 'Department Detail', value: 'DepartmentId' }
+}
+
+annotate entity ZC_DEPT144 with
+{
+  @UI.facet: [
+  { id: 'Department',
+    type: #IDENTIFICATION_REFERENCE,
+    targetQualifier: 'Department',
+    label: 'Department', position: 10 } ]
+
+  @EndUserText.label: 'Department Id'
+  @UI.lineItem: [ { position: 10 } ]
+  @UI.identification: [ { position: 10,  qualifier: 'Department' } ]
+  @UI.selectionField: [ { position: 10 } ]
+  @UI.fieldGroup: [{ qualifier: 'Department', position: 10 }]
+  @Consumption.filter: { selectionType: #RANGE }
+  DepartmentId;
+
+  @EndUserText.label: 'Department Name'
+  @UI.lineItem: [ { position: 20 } ]
+  @UI.identification: [ { position: 20,  qualifier: 'Department' } ]
+  @UI.selectionField: [ { position: 20 } ]
+  @UI.fieldGroup: [{ qualifier: 'Department', position: 20 }]
+  @Consumption.filter: { selectionType: #RANGE }
+  DepartmentName;
+
+  @EndUserText.label: 'Created Id'
+  @UI.lineItem: [ { position: 30 } ]
+  @UI.identification: [ { position: 30,  qualifier: 'Department' } ]
+  @UI.selectionField: [ { position: 30 } ]
+  @UI.fieldGroup: [{ qualifier: 'Department', position: 30 }]
+  @Consumption.filter: { selectionType: #RANGE }
+  CreatedId;
+
+}

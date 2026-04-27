@@ -1,0 +1,10 @@
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Interface View training Departement144'
+@Metadata.ignorePropagatedAnnotations: true
+define root view entity ZI_DEPT144
+  as select from zdb_dept144
+{
+  key department_id   as DepartmentId,
+      department_name as DepartmentName,
+      created_id      as CreatedId
+}

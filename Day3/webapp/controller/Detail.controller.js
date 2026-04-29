@@ -178,7 +178,92 @@ sap.ui.define([
                     MessageBox.error(that._getBackendErrorMessage(oError));
                 }
             });
-        }
+        },
+        onDepartmentVH: function () {
+            var that = this;
+            if (!this._pDepartmentVHDialog) {
+                this._pDepartmentVHDialog = Fragment.load({
+                    id: this.getView().getId(),
+                    name: "com.acn.training200.fragment.DepartmentVH",
+                    controller: this
+                }).then(function (oDialog) {
+                    that.getView().addDependent(oDialog);
+                    return oDialog;
+                });
+            }
+            this._pDepartmentVHDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+
+        // Filter the list as the user types in the search box 
+        onDepartmentVHSearch: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oFilter = new Filter({
+                filters: [
+                    new Filter("DepartmentId", FilterOperator.Contains, sValue),
+                    new Filter("DepartmentName", FilterOperator.Contains, sValue)
+                ],
+                and: false
+            });
+            oEvent.getSource().getBinding("items").filter([oFilter]);
+        },
+
+        // Copy selected values back to the form fields 
+        onDepartmentVHConfirm: function (oEvent) {
+            var oItem = oEvent.getParameter("selectedItem");
+            if (oItem) {
+                var oCtx = oItem.getBindingContext();
+                this.byId("inpDepartmentId").setValue(oCtx.getProperty("DepartmentId"));
+                this.byId("txtDepartmentName").setText(oCtx.getProperty("DepartmentName"));
+            }
+        },
+
+        onDepartmentVHCancel: function () { /* Dialog closes automatically */ },
+
+        // Currency Value Help
+        onCurrencyVH: function () {
+            var that = this;
+
+            if (!this._pCurrencyVHDialog) {
+                this._pCurrencyVHDialog = Fragment.load({
+                    id: this.getView().getId(),
+                    name: "com.acn.training200.fragment.CurrencyVH",
+                    controller: this
+                }).then(function (oDialog) {
+                    that.getView().addDependent(oDialog);
+                    return oDialog;
+                });
+            }
+
+            this._pCurrencyVHDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+
+        onCurrencyVHSearch: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oFilter = new Filter({
+                filters: [
+                    new Filter("currency", FilterOperator.Contains, sValue),
+                    new Filter("longText", FilterOperator.Contains, sValue)
+                ],
+                and: false
+            });
+            oEvent.getSource().getBinding("items").filter([oFilter]);
+        },
+
+        onCurrencyVHConfirm: function (oEvent) {
+            var oSelectedItem = oEvent.getParameter("selectedItem");
+            if (oSelectedItem) {
+                var oContext = oSelectedItem.getBindingContext();
+                this.byId("inpCurrencyCode").setValue(oContext.getProperty("currency"));
+            }
+        },
+
+        onCurrencyVHCancel: function () {
+            // Dialog closes automatically
+        },
 
     });
 });

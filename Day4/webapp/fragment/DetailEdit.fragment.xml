@@ -1,0 +1,223 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+>
+    <f:Form
+        id="formEdit"
+        editable="true"
+        class="sapUiMediumMarginBeginEnd sapUiMediumMarginTop"
+    >
+        <f:layout>
+            <f:ResponsiveGridLayout
+                labelSpanXL="4"
+                labelSpanL="3"
+                labelSpanM="4"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="0"
+                emptySpanL="4"
+                emptySpanM="0"
+                emptySpanS="0"
+                columnsXL="2"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false"
+            />
+        </f:layout>
+        <f:formContainers>
+            <!-- ── Column 1: Basic Data ── -->
+            <f:FormContainer title="{i18n>basicData}">
+                <f:formElements>
+                    <f:FormElement>
+                        <f:label>
+                            <Label
+                                id="edt_lblEmployeeName"
+                                text="{i18n>employeeName}"
+                                required="true"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <Input
+                                id="inpEmployeeName"
+                                value="{EmployeeName}"
+                                change=".onEmployeeNameChange"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label
+                                id="edt_lblBirthDate"
+                                text="{i18n>birthDate}"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <DatePicker
+                                id="dpBirthDate"
+                                value="{path: 'BirthDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'dd MMM yyyy', UTC: true }}"
+                                displayFormat="dd MMM yyyy"
+                                valueFormat="yyyy-MM-dd"
+                                change=".onBirthDateChange"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label
+                                id="edt_lblEmail"
+                                text="{i18n>email}"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <Input
+                                id="inpEmail"
+                                value="{Email}"
+                                type="Email"
+                                change=".onEmailChange"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label
+                                id="edt_lblPhoneNo"
+                                text="{i18n>phoneNo}"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <Input
+                                id="inpPhoneNo"
+                                value="{PhoneNo}"
+                                type="Tel"
+                                change=".onPhoneNoChange"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+                </f:formElements>
+            </f:FormContainer>
+
+            <!-- ── Column 2: Office Data ── -->
+            <f:FormContainer title="{i18n>officeData}">
+                <f:formElements>
+                    <f:FormElement>
+                        <f:label>
+                            <Label
+                                id="edt_lblDepartmentId"
+                                text="{i18n>department}"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <Input
+                                id="inpDepartmentId"
+                                value="{DepartmentId}"
+                                showValueHelp="true"
+                                valueHelpRequest=".onDepartmentVH"
+                            >
+                                <layoutData>
+                                    <l:GridData span="XL1 L2 M2 S4" />
+                                </layoutData>
+                            </Input>
+                            <Text
+                                id="txtDepartmentName"
+                                text="{DepartmentName}"
+                                class="sapUiSmallMarginBegin"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label
+                                id="edt_lblHireDate"
+                                text="{i18n>hireDate}"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <DatePicker
+                                id="dpHireDate"
+                                value="{path: 'HireDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'dd-MM-yyyy', UTC: true }}"
+                                displayFormat="dd-MM-yyyy"
+                                valueFormat="yyyy-MM-dd"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <!-- Status — only in edit mode, not create -->
+                    <f:FormElement visible="{= !${view>/createMode} }">
+                        <f:label>
+                            <Label
+                                id="edt_lblStatus"
+                                text="{i18n>status}"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <CheckBox
+                                id="edt_cbStatus"
+                                text="{i18n>statusActive}"
+                                selected="{view>/statusChecked}"
+                                enabled="false"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label
+                                id="edt_lblSalary"
+                                text="{i18n>salary}"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <Input
+                                id="inpSalary"
+                                value="{Salary}"
+                                change=".onSalaryChange"
+                                required="true"
+                            />
+                            <Input
+                                id="inpCurrencyCode"
+                                value="{CurrencyCode}"
+                                showValueHelp="true"
+                                valueHelpRequest=".onCurrencyVH"
+                            >
+                                <layoutData>
+                                    <l:GridData span="XL2 L2 M2 S4" />
+                                </layoutData>
+                            </Input>
+                        </f:fields>
+                    </f:FormElement>
+
+                    <!-- Total Salary with Calculate button -->
+                    <f:FormElement visible="{= !${view>/createMode} }">
+                        <f:label>
+                            <Label
+                                id="edt_lblSalaryTotal"
+                                text="{i18n>salaryTotal}"
+                            />
+                        </f:label>
+                        <f:fields>
+                            <Text
+                                id="txtSalaryTotal"
+                                text="{SalaryTotal} {CurrencyCode}"
+                            />
+                            <Button
+                                id="calcBtn"
+                                text="{i18n>calculate}"
+                                press=".onCalculateSalary"
+                            >
+                                <layoutData>
+                                    <l:GridData span="XL2 L2 M2 S4" />
+                                </layoutData>
+                            </Button>
+                        </f:fields>
+                    </f:FormElement>
+                </f:formElements>
+            </f:FormContainer>
+        </f:formContainers>
+    </f:Form>
+</core:FragmentDefinition>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+        <edmx:Include Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="cds_zsd_emptraining" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="DepartmentType" sap:label="Projection View ZI_DEPT144" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="DepartmentId"/>
+                </Key>
+                <Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Update_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Department Id"/>
+                <Property Name="DepartmentName" Type="Edm.String" MaxLength="50" sap:label="Department Name"/>
+            </EntityType>
+            <EntityType Name="EmployeeType" sap:label="Projection View ZI_EMPLOYEE144" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="EmployeeId"/>
+                </Key>
+                <Property Name="CalculateTotalSalary_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Update_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EmployeeId" Type="Edm.String" Nullable="false" MaxLength="20" sap:display-format="NonNegative" sap:label="Employee ID" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="EmployeeName" Type="Edm.String" MaxLength="500" sap:label="Employee Name"/>
+                <Property Name="BirthDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Birth Date"/>
+                <Property Name="Email" Type="Edm.String" MaxLength="250" sap:label="Email"/>
+                <Property Name="PhoneNo" Type="Edm.String" MaxLength="50" sap:label="Phone Number"/>
+                <Property Name="DepartmentId" Type="Edm.String" MaxLength="10" sap:label="Department ID"/>
+                <Property Name="HireDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Hire Date"/>
+                <Property Name="Salary" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="CurrencyCode" sap:variable-scale="true" sap:label="Salary"/>
+                <Property Name="SalaryTotal" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="CurrencyCode" sap:variable-scale="true" sap:label="Total Salary"/>
+                <Property Name="CurrencyCode" Type="Edm.String" MaxLength="5" sap:label="Currency" sap:value-list="standard" sap:semantics="currency-code"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="1" sap:label="Status"/>
+                <Property Name="CreatedDate" Type="Edm.DateTimeOffset" Precision="7" sap:label="Creation Date Time" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Created By User" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="ModifiedDate" Type="Edm.DateTimeOffset" Precision="7" sap:label="Last Changed" sap:quickinfo="Last Change Date Time" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Last Changed By User" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="DepartmentName" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+            <EntityType Name="ZVH_CURRENCYType" sap:label="Value Help Currency Employee" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="currency"/>
+                </Key>
+                <Property Name="currency" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="Currency" sap:quickinfo="Currency Key" sap:semantics="currency-code"/>
+                <Property Name="longText" Type="Edm.String" MaxLength="40" sap:label="Long Text"/>
+            </EntityType>
+            <EntityType Name="SAP__Currency" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="CurrencyCode"/>
+                </Key>
+                <Property Name="CurrencyCode" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="Currency" sap:semantics="currency-code"/>
+                <Property Name="ISOCode" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="ISO code"/>
+                <Property Name="Text" Type="Edm.String" Nullable="false" MaxLength="15" sap:label="Short text"/>
+                <Property Name="DecimalPlaces" Type="Edm.Byte" Nullable="false" sap:label="Decimals"/>
+            </EntityType>
+            <EntityType Name="SAP__UnitOfMeasure" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="UnitCode"/>
+                </Key>
+                <Property Name="UnitCode" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Internal UoM" sap:semantics="unit-of-measure"/>
+                <Property Name="ISOCode" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="ISO code"/>
+                <Property Name="ExternalCode" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Commercial"/>
+                <Property Name="Text" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="Measurement Unit Txt"/>
+                <Property Name="DecimalPlaces" Type="Edm.Int16" sap:label="Decimal Places"/>
+            </EntityType>
+            <EntityContainer Name="cds_zsd_emptraining_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="Department" EntityType="cds_zsd_emptraining.DepartmentType" sap:content-version="1" sap:deletable-path="Delete_mc" sap:updatable-path="Update_mc"/>
+                <EntitySet Name="Employee" EntityType="cds_zsd_emptraining.EmployeeType" sap:content-version="1" sap:deletable-path="Delete_mc" sap:updatable-path="Update_mc"/>
+                <EntitySet Name="ZVH_CURRENCY" EntityType="cds_zsd_emptraining.ZVH_CURRENCYType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="SAP__Currencies" EntityType="cds_zsd_emptraining.SAP__Currency" sap:content-version="1"/>
+                <EntitySet Name="SAP__UnitsOfMeasure" EntityType="cds_zsd_emptraining.SAP__UnitOfMeasure" sap:content-version="1"/>
+                <FunctionImport Name="CalculateTotalSalary" ReturnType="cds_zsd_emptraining.EmployeeType" EntitySet="Employee" m:HttpMethod="POST" sap:action-for="cds_zsd_emptraining.EmployeeType" sap:applicable-path="CalculateTotalSalary_ac">
+                    <Parameter Name="EmployeeId" Type="Edm.String" Mode="In" MaxLength="20"/>
+                </FunctionImport>
+            </EntityContainer>
+            <Annotations Target="cds_zsd_emptraining.EmployeeType/CurrencyCode" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String=""/>
+                        <PropertyValue Property="CollectionPath" String="ZVH_CURRENCY"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="CurrencyCode"/>
+                                    <PropertyValue Property="ValueListProperty" String="currency"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="longText"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.cds_zsd_emptraining_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.DepartmentType/DepartmentId" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.DepartmentType/DepartmentName" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.EmployeeType/EmployeeName" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.cds_zsd_emptraining_Entities/Department" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonFilterableProperties">
+                            <Collection>
+                                <PropertyPath>Delete_mc</PropertyPath>
+                                <PropertyPath>Update_mc</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>Delete_mc</PropertyPath>
+                                <PropertyPath>Update_mc</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.cds_zsd_emptraining_Entities/Employee" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonFilterableProperties">
+                            <Collection>
+                                <PropertyPath>CalculateTotalSalary_ac</PropertyPath>
+                                <PropertyPath>Delete_mc</PropertyPath>
+                                <PropertyPath>Update_mc</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>CalculateTotalSalary_ac</PropertyPath>
+                                <PropertyPath>Delete_mc</PropertyPath>
+                                <PropertyPath>Update_mc</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.cds_zsd_emptraining_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Org.OData.Capabilities.V1.BatchSupport">
+                    <Record Type="Org.OData.Capabilities.V1.BatchSupportType">
+                        <PropertyValue Property="ReferencesAcrossChangeSetsSupported" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__CodeList.CurrencyCodes">
+                    <Record>
+                        <PropertyValue Property="Url" String="./$metadata"/>
+                        <PropertyValue Property="CollectionPath" String="SAP__Currencies"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__CodeList.UnitsOfMeasure">
+                    <Record>
+                        <PropertyValue Property="Url" String="./$metadata"/>
+                        <PropertyValue Property="CollectionPath" String="SAP__UnitsOfMeasure"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.SAP__Currency/CurrencyCode" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="SAP__common.Text" Path="Text"/>
+                <Annotation Term="SAP__common.UnitSpecificScale" Path="DecimalPlaces"/>
+                <Annotation Term="SAP__CodeList.StandardCode" Path="ISOCode"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.SAP__UnitOfMeasure/UnitCode" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="SAP__common.Text" Path="Text"/>
+                <Annotation Term="SAP__common.UnitSpecificScale" Path="DecimalPlaces"/>
+                <Annotation Term="SAP__CodeList.StandardCode" Path="ISOCode"/>
+                <Annotation Term="SAP__CodeList.ExternalCode" Path="ExternalCode"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_emptraining.SAP__UnitOfMeasure" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="SAP__core.AlternateKeys">
+                    <Collection>
+                        <Record>
+                            <PropertyValue Property="Key">
+                                <Collection>
+                                    <Record>
+                                        <PropertyValue Property="Name" Path="ExternalCode"/>
+                                        <PropertyValue Property="Alias" String="ExternalCode"/>
+                                    </Record>
+                                </Collection>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/sap/ZSB_EMPTRAINING/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://atcs4htdbapp1.aws.atcindo.com:8002/sap/opu/odata/sap/ZSB_EMPTRAINING/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

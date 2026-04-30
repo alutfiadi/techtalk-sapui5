@@ -1,0 +1,146 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+    <f:Form
+        id="formDisplay"
+        editable="false"
+        class="sapUiMediumMarginBeginEnd sapUiMediumMarginTop">
+        <f:layout>
+            <f:ResponsiveGridLayout
+                labelSpanXL="4"
+                labelSpanL="4"
+                labelSpanM="4"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                columnsXL="2"
+                columnsL="2"
+                columnsM="1" />
+        </f:layout>
+        <f:formContainers>
+
+            <!-- ── Column 1: Basic Data ── -->
+            <f:FormContainer title="{i18n>basicData}">
+                <f:formElements>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblEmployeeId" text="{i18n>employeeId}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtEmployeeId" text="{EmployeeId}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblEmployeeName" text="{i18n>employeeName}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtEmployeeName" text="{EmployeeName}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblBirthDate" text="{i18n>birthDate}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtBirthDate"
+                                text="{path: 'BirthDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'dd MMM yyyy', UTC: true }}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblEmail" text="{i18n>email}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtEmail" text="{Email}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblPhoneNo" text="{i18n>phoneNo}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtPhoneNo" text="{PhoneNo}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                </f:formElements>
+            </f:FormContainer>
+
+            <!-- ── Column 2: Office Data ── -->
+            <f:FormContainer title="{i18n>officeData}">
+                <f:formElements>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblDepartmentId" text="{i18n>department}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtDepartment" text="{DepartmentId} – {DepartmentName}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblHireDate" text="{i18n>hireDate}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtHireDate"
+                                text="{path: 'HireDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'dd-MM-yyyy', UTC: true }}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblStatus" text="{i18n>status}" />
+                        </f:label>
+                        <f:fields>
+                            <CheckBox
+                                id="dsp_cbStatus"
+                                text="{i18n>statusActive}"
+                                selected="{view>/statusChecked}"
+                                enabled="false" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblSalary" text="{i18n>salary}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtSalary"
+                                text="{path: 'Salary', type: 'sap.ui.model.type.Float', formatOptions: { groupingEnabled: true, groupingSeparator: ',', decimalSeparator: '.', maxFractionDigits: 2 }}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblCurrencyCode" text="{i18n>currencyCode}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtCurrencyCode" text="{CurrencyCode}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                    <f:FormElement>
+                        <f:label>
+                            <Label id="dsp_lblSalaryTotal" text="{i18n>salaryTotal}" />
+                        </f:label>
+                        <f:fields>
+                            <Text id="dsp_txtSalaryTotal" text="{SalaryTotal} {CurrencyCode}" />
+                        </f:fields>
+                    </f:FormElement>
+
+                </f:formElements>
+            </f:FormContainer>
+
+        </f:formContainers>
+    </f:Form>
+
+</core:FragmentDefinition>
